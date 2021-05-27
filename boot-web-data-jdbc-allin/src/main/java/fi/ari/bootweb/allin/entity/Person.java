@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotEmpty;
@@ -18,6 +20,7 @@ import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE;
     fieldVisibility = NONE,
     setterVisibility = NONE
 )
+@Getter @Setter
 public class Person {
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

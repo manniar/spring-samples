@@ -37,24 +37,14 @@ public class PersonController {
 		return personService.findAll().size();
 	}
 
+	/** Special case for authority check */
 	@PostMapping(consumes = APPLICATION_JSON_VALUE)
 	@Validated
 	@Operation(summary = "Saves a person", description = "${persons.info.save:}")
 	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "New person") })
-	@PreAuthorize("hasAuthority('SCOPE_Person.Admin')")
+	@PreAuthorize("@authorityCheck.isAuthorized(#person)")
 	public Person save(@RequestBody Person person) {
 		return personService.save(person);
-	}
-
-	/** Special case for authority check */
-	@GetMapping(path = "/id/{id}/lastname/{lastname}")
-	@Operation(summary = "Updates person last name", description = "${persons.info.save:}")
-	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Updated person") })
-	@PreAuthorize("@authorityCheck.isAuthorized(#id)")
-	public Person updateLastName(@PathVariable("id") int id, @PathVariable("lastname") String lastname) throws EntityNotFoundException {
-		Person person = personService.getById(id);
-		person.setLastName(lastname);
-		return personService.save(new Person("",""));
 	}
 
 	@GetMapping(path = "/id/{id}")
