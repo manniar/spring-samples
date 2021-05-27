@@ -6,22 +6,21 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import fi.ari.bootweb.allin.config.JwtConfig;
 import fi.ari.bootweb.allin.controller.PersonController;
 import fi.ari.bootweb.allin.service.PersonService;
-import fi.ari.bootweb.allin.test.MockTestConfig;
 import fi.ari.bootweb.allin.test.TestBase;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,7 +36,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.NestedServletException;
 
 import javax.sql.DataSource;
-
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,18 +51,19 @@ import static org.springframework.util.Assert.isInstanceOf;
 @AutoConfigureCache
 @AutoConfigureDataJdbc
 // @AutoConfigureTestDatabase // Add this if you want autoconfigured test database. Does not work with @EnableGlobalMethodSecurity though.
+@EnableJdbcRepositories(basePackages = "fi.ari.bootweb.allin.repository")
 
 // Cherrypicked from @SpringJUnitWebConfig
 @ContextConfiguration( classes = { PersonService.class, SimpleMeterRegistry.class })
 @WebAppConfiguration // ("src/main/webapp")
 
-@AutoConfigurationPackage(basePackages = "fi.ari.bootweb.allin") // Either here or in class loaded in @ContextConfiguration
 @EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({ PersonController.class })
 @EnableConfigurationProperties({ JwtConfig.class })
 @TestPropertySource({"classpath:application-test.properties","classpath:application-test-db.properties"})
 @Sql("/persons.sql")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersonControllerDBTest extends TestBase {
 	static final ObjectMapper mapper = new ObjectMapper();
 
@@ -84,7 +83,7 @@ public class PersonControllerDBTest extends TestBase {
 
 	protected MockMvc mockMvc;
 
-	@BeforeEach
+	@BeforeAll
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
 	}

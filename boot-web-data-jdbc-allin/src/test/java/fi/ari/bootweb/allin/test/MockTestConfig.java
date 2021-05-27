@@ -29,10 +29,6 @@ public class MockTestConfig {
 		new Person("Steve", "Waugh")
 	);
 
-	public MockTestConfig() {
-		System.out.println("-- MockTestConfig.init");
-	}
-
 	@Mock
 	PersonRepository repo;
 
@@ -45,7 +41,6 @@ public class MockTestConfig {
 
 	@Bean
 	public PersonRepository getPersonRepository() {
-		System.out.println("-- MockTestConfig.PersonRepository : " + repo);
 		return repo;
 	}
 }

@@ -7,6 +7,7 @@ import fi.ari.bootweb.allin.test.MockTestConfig;
 import fi.ari.bootweb.allin.test.TestBase;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,6 +28,7 @@ import static fi.ari.bootweb.allin.test.MockTestConfig.list;
 @SpringJUnitConfig({ MockTestConfig.class, PersonService.class })
 @EnableConfigurationProperties({ JwtConfig.class }) // Without this, JwtConfig will be empty
 @TestPropertySource(value = "classpath:application-test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersonServiceMockTest extends TestBase {
 	@Autowired PersonService service;
 	@Autowired PersonRepository repo;

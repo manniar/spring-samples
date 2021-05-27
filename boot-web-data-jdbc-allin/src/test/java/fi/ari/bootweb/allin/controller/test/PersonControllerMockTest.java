@@ -6,8 +6,9 @@ import fi.ari.bootweb.allin.service.PersonService;
 import fi.ari.bootweb.allin.test.MockTestConfig;
 import fi.ari.bootweb.allin.test.TestBase;
 import io.micrometer.core.instrument.MeterRegistry;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableWebMvc
 @Import({ PersonController.class })
 @TestPropertySource(value = "classpath:application-test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PersonControllerMockTest extends TestBase {
 	@Value("${allin.token.secret}")
 	String secret;
@@ -48,7 +50,7 @@ public class PersonControllerMockTest extends TestBase {
 
 	protected MockMvc mockMvc;
 
-	@BeforeEach
+	@BeforeAll
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
 	}
@@ -61,7 +63,6 @@ public class PersonControllerMockTest extends TestBase {
 		assertNotNull(meterRegistry);
 		assertNotNull(jwtConfig);
 		assertNotNull(jwtConfig.secret);
-		System.out.println("-- Secret: " + secret);
 	}
 
 	@Test
