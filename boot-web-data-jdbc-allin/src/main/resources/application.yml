@@ -1,0 +1,7 @@
+
+allin.info.app : "Demo application demonstrating\n
+  * Spring Boot Web application\n
+  * Spring Data JDBC persistence in H2 with Lombok simplified entities\n
+  * OAuth2 resource server / JWT authentication and @PreAuthorize authorization\n
+  * Actuator with micrometer\n
+  * Challenges of JUnit5 testing controllers and services with all above\n"
