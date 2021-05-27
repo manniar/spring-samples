@@ -25,6 +25,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/** Test Service via Repository to actual DB */
 @DataJdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE )
 @AutoConfigurationPackage(basePackages = "fi.ari.bootweb.allin") // Either here or in class loaded in @ContextConfiguration

@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-//@EnableWebSecurity
+
 @EnableConfigurationProperties({ JwtConfig.class })
 @Import({ SimpleMeterRegistry.class })
 @EnableGlobalMethodSecurity(prePostEnabled = true)

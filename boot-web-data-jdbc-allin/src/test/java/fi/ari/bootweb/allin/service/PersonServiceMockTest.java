@@ -23,6 +23,7 @@ import static org.mockito.Mockito.*;
 import static fi.ari.bootweb.allin.test.MockTestConfig.list;
 
 
+/** Test Service via Repository to mock DB */
 @SpringJUnitConfig({ MockTestConfig.class, PersonService.class })
 @EnableConfigurationProperties({ JwtConfig.class }) // Without this, JwtConfig will be empty
 @TestPropertySource(value = "classpath:application-test.properties")
