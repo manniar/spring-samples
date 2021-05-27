@@ -3,6 +3,7 @@ package fi.ari.bootweb.allin.service;
 import fi.ari.bootweb.allin.config.JwtConfig;
 import fi.ari.bootweb.allin.entity.Person;
 import fi.ari.bootweb.allin.repository.PersonRepository;
+import fi.ari.bootweb.allin.test.SetupDataJdbcTest;
 import fi.ari.bootweb.allin.test.TestBase;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
@@ -11,19 +12,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
-import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -34,14 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /** Test Service via Repository to actual DB */
 @ExtendWith(SpringExtension.class)
-
-// Cherrypicked from @DataJdbcTest
-@Transactional
-@AutoConfigureCache
-@AutoConfigureDataJdbc
-// @AutoConfigureTestDatabase // Add this if you want autoconfigured test database. Does not work with @EnableGlobalMethodSecurity though.
-@EnableJdbcRepositories(basePackages = "fi.ari.bootweb.allin.repository")
-
+@SetupDataJdbcTest
+@AutoConfigureTestDatabase // Add this if you want autoconfigured test database. Does not work with @EnableGlobalMethodSecurity though.
 @ContextConfiguration(classes = { PersonService.class, SimpleMeterRegistry.class })
 @EnableConfigurationProperties({ JwtConfig.class }) // Without this, JwtConfig will be empty
 @TestPropertySource({"classpath:application-test.properties","classpath:application-test-db.properties"})
