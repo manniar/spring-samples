@@ -1,0 +1,36 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+# Ignore Gradle build output directory
+build
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### Development time temp files ###
+/config/temp/
+/src/**/draft
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VSCode
+.vscode/
