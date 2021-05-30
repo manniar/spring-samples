@@ -8,13 +8,23 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Configuration
-public class GroovyConfiguration {
-	@Value("${script.when}")
-	Instant when;
+public class GroovyConfigurationDynamic {
+
+	@GroovyProperty
 	@Value("${script.hello}")
 	Function<String,String> hello;
-	@Value("${script.json}")
+
+	@Value("${script.json}") @GroovyProperty
 	Supplier<String> jsonSource;
-	@Value("${script.convert}")
+
+	@GroovyProperty @Value("${script.convert}")
 	Function<Object,String> convert;
+
+	Instant when;
+
+	@Value("${script.when}") @GroovyProperty
+	public void setWhen(Instant when) {
+		this.when = when;
+	}
+
 }

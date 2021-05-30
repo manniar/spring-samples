@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = { SpringBootTestApplication.class, GroovyConfiguration.class })
+@SpringBootTest(classes = { SpringBootTestApplication.class, GroovyConfigurationDynamic.class })
 @TestPropertySource( locations = "/application-test.properties" )
-public class SpringBootFunctionalTest {
+public class SpringBootDynamicTest {
 
 	static JsonParser jsonParser = JsonParserFactory.getJsonParser();
 
 	@Autowired
-	GroovyConfiguration config;
+	GroovyConfigurationDynamic config;
 
 	@Test
 	void contextLoads() {}

@@ -8,8 +8,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -20,7 +22,7 @@ public class GroovyPropertyEditorConfiguration {
 	@Bean
 	public CustomEditorConfigurer customEditorConfigurer(@Value("${groovy.property.classes}") List<String> classNames) {
 		log.info("Configure for classes: {}", String.join(",", classNames));
-		List<Class> classes = classNames.stream().map( className -> {
+		Set<Class> classes = classNames.stream().map(className -> {
 				try {
 					return Class.forName(className);
 				} catch (ClassNotFoundException e) {
@@ -29,7 +31,7 @@ public class GroovyPropertyEditorConfiguration {
 				}
 			})
 			.filter( Objects::nonNull )
-			.collect(Collectors.toList());
+			.collect(Collectors.toCollection( HashSet::new ));
 		return GroovyPropertyEditorRegistrar.createCustomEditorConfigurer(classes);
 	}
 
