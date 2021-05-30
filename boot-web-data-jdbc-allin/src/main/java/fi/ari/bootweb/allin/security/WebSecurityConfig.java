@@ -31,17 +31,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             http.oauth2ResourceServer().jwt()
                 .decoder(hmacJws)
                 .jwtAuthenticationConverter(new JwtAuthenticationConverter());
+
+            //// For demonstration purposes
+            System.out.println("\nUSER TOKEN : " +
+                    hmacJws.create("test", List.of("Person.User"), List.of("Person.1","Person.2","Person.3"), new Date(System.currentTimeMillis() + 3_600_000)) );
+            System.out.println("\nADMIN TOKEN : " +
+                    hmacJws.create("test", List.of("Person.Admin"), EMPTY_LIST, new Date(System.currentTimeMillis() + 3_600_000)) );
         }
 
         http.authorizeRequests( req -> req.anyRequest().permitAll() );
         http.csrf().disable();
 
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-
-        //// For demonstration purposes
-        System.out.println("\nUSER TOKEN : " +
-            hmacJws.create("test", List.of("Person.User"), List.of("Person.1","Person.2","Person.3"), new Date(System.currentTimeMillis() + 3_600_000)) );
-        System.out.println("\nADMIN TOKEN : " +
-            hmacJws.create("test", List.of("Person.Admin"), EMPTY_LIST, new Date(System.currentTimeMillis() + 3_600_000)) );
     }
 }
