@@ -1,11 +1,22 @@
 plugins {
+//    id 'org.springframework.boot' version '2.5.0'
+//    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+//    id: 'org.junit.platform.gradle.plugin'
     id 'groovy'
     id 'maven-publish'
 }
 
-repositories {
-    jcenter()
+test {
+    useJUnitPlatform()
 }
+
+repositories {
+    mavenCentral()
+}
+
+group = 'fi.ari.spring'
+version = '0.0.9'
+sourceCompatibility = '11'
 
 publishing {
     publications {
@@ -30,5 +41,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-test
     testImplementation group: 'org.codehaus.groovy', name: 'groovy-test', version: '3.0.8'
+    testImplementation 'org.springframework.boot:spring-boot-starter:2.5.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.0'
 
 }
