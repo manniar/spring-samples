@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /** Test Service via Repository to actual DB */
 @ExtendWith(SpringExtension.class)
 @SetupDataJdbcTest
-@AutoConfigureTestDatabase // Add this if you want autoconfigured test database. Does not work with @EnableGlobalMethodSecurity though.
+//@AutoConfigureTestDatabase // Add this if you want autoconfigured test database. Does not work with @EnableGlobalMethodSecurity though.
 @ContextConfiguration(classes = { PersonService.class, SimpleMeterRegistry.class })
 @EnableConfigurationProperties({ JwtConfig.class }) // Without this, JwtConfig will be empty
 @TestPropertySource({"classpath:application-test.properties","classpath:application-test-db.properties"})
